@@ -5,7 +5,7 @@ axios.interceptors.request.use(req => {
   const token = localStorage.getItem('token')
 
   if (token) {
-    // 認証トークン
+    // 認証トークン付与
     req.headers.Authorization = `Bearer ${token}`
   }
   return req
@@ -16,7 +16,6 @@ axios.interceptors.response.use(res => res, err => {
     return Promise.reject({code: 999, message: 'cancel'})
   }
   if (err.response.status && err.response.status === 401) {
-    // connectしていないので明示的にdispatchを渡す
     localStorage.setItem('token', '')
   }
   return Promise.reject(err.response || {})

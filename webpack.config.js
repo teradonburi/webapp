@@ -17,7 +17,7 @@ module.exports = {
       // BrowserSync options
       {
         host: 'localhost',
-        port: 3000,
+        port: 4000,
         files: ['server', 'dist'],
         reloadDelay: 500,
         proxy: 'http://localhost:5000/'

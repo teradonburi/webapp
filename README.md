@@ -1,4 +1,4 @@
-# web applicatio template
+# web application template
 
 ```
 $ yarn

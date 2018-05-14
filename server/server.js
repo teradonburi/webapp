@@ -2,8 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 
-process.on('uncaughtException', (err) => console.log('uncaughtException => ' + err))
-process.on('unhandledRejection', (err) => console.log('unhandledRejection => ' + err))
+process.on('uncaughtException', (err) => console.error(err))
+process.on('unhandledRejection', (err) => console.error(err))
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())

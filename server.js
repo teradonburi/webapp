@@ -8,10 +8,10 @@ process.on('unhandledRejection', (err) => console.error(err))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use(express.static('dist'))
+app.use(express.static('public'))
 
-app.get('/api', (req, res) => {
-  res.json('hello world!!')
+app.post('/api', (req, res) => {
+  res.json(req.body.data)
 })
 
 app.listen(5000, () => {

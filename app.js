@@ -2,7 +2,7 @@ async function main() {
   try {
     const data = await fetch('/api', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({data: 'hello world!'}),
     }).then(async (response) => {
       return await response.json()

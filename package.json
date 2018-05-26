@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "run-p start:*",
+    "dev": "run-p dev:*",
     "dev:server": "node-dev --inspect server.js",
     "dev:client": "browser-sync start --port 5001 --proxy 'localhost:5000' --ss '.' --f '.' --ignore 'node_modules' 'yarn.lock'",
     "lint": "eslint *.js"
@@ -19,7 +19,9 @@
     "passport-http-bearer": "^1.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
     "browser-sync": "^2.24.4",
-    "browser-sync-webpack-plugin": "^2.2.2"
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "eslint": "^4.19.1"
   }
 }

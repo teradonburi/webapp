@@ -1,37 +1,26 @@
-import axios from 'axios'
-
-
-axios.interceptors.request.use(req => {
-  const token = localStorage.getItem('token')
-
-  if (token) {
-    // 認証トークン付与
-    req.headers.Authorization = `Bearer ${token}`
-  }
-  return req
-}, err => Promise.reject(err))
-
-axios.interceptors.response.use(res => res, err => {
-  if (axios.isCancel(err)) {
-    return Promise.reject({code: 999, message: 'cancel'})
-  }
-  if (err.response.status && err.response.status === 401) {
-    localStorage.setItem('token', '')
-  }
-  return Promise.reject(err.response || {})
-})
-
-
-function main() {
-  axios.post('/api/users', {name: 'test'})
-  .then(res => res.data)
-  .then(data => {
-    console.log(data)
-    localStorage.setItem('token', data.token)
-    axios.get('/api/users')
-      .then(res => res.data)
-      .then(data => console.log(data))
+async function main() {
+  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : await fetch('/api/users', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: 'test'}),
+  }).then(async (response) => {
+    return await response.json()
   })
+
+  console.log(user.token)
+  localStorage.setItem('user', JSON.stringify(user))
+
+  const ret = await fetch(`/api/users/${user.id}`, {
+    method: 'GET',
+    headers: {'Authorization': `Bearer ${user.token}`},
+  }).then(async (response) => {
+    return await response.json()
+  })
+  console.log(ret)
+  const body = document.querySelector('body')
+  const div = document.createElement('div')
+  div.innerHTML = ret.name
+  body.appendChild(div)
 }
 main()
 

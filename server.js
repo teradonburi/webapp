@@ -8,7 +8,6 @@ process.on('unhandledRejection', (err) => console.error(err))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use(express.static('dist'))
 
 // mongo
 const mongoose = require('mongoose')
@@ -20,7 +19,7 @@ const User = require('./user')
 const passport = require('passport')
 const BearerStrategy = require('passport-http-bearer')
 passport.use(new BearerStrategy(function(token, done) {
-  models.User.findOne({token, deactivate: {$ne: true}}, function(err, user) {
+  User.findOne({token, deactivate: {$ne: true}}, function(err, user) {
     if (err) return done(err)
     if (!user) return done(null, false)
     return done(null, user)
@@ -67,7 +66,7 @@ app.use(
   '/api',
   authenticate,
   express.Router()
-    .get('/users/:id', users.show)
+    .get('/users/:id', show)
 )
 
 app.listen(5000, () => {

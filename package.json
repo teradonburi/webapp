@@ -7,7 +7,7 @@
     "dev": "run-p dev:*",
     "dev:server": "node-dev --inspect server.js",
     "dev:client": "browser-sync start --port 5001 --proxy 'localhost:5000' --ss '.' --f '.' --ignore 'node_modules' 'yarn.lock'",
-    "lint": "eslint --max-warnings 0 *.js"
+    "lint": "eslint *.js"
   },
   "dependencies": {
     "express": "^4.16.3",

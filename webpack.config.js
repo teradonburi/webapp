@@ -1,47 +1,46 @@
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+/*globals module: false require: false __dirname: false */
+const webpack = require('webpack')
 
 module.exports = {
-  devtool: 'inline-source-map', // ソースマップファイル追加 
-  mode: 'development',
-  entry: './client/main.js', // エントリポイントのjsxファイル
-  resolve: {
-    modules: ['client', 'node_modules'],
-    extensions: ['.js', '.json'],
+  mode: 'development', // 開発モード
+  devtool: 'cheap-module-source-map', // ソースマップファイル追加
+  entry: [
+    'babel-polyfill',
+    'react-hot-loader/patch',
+    __dirname + '/index', // エントリポイントのjsxファイル
+  ],
+  // React Hot Loader用のデバッグサーバ(webpack-dev-server)の設定
+  devServer: {
+    contentBase: __dirname, // index.htmlの格納場所
+    historyApiFallback: true, // history APIが404エラーを返す時、index.htmlに遷移(ブラウザリロード時など)
+    inline: true, // ソース変更時リロードモード
+    hot: true, // HMR(Hot Module Reload)モード
+    port: 7070, // 起動ポート
   },
   output: {
-    filename: 'main.js' // 出力するファイル
+    publicPath: '/dist', // distフォルダ以下を公開パスに指定
+    filename: 'bundle.js',
   },
   plugins: [
-    new BrowserSyncPlugin(
-      // BrowserSync options
-      {
-        host: 'localhost',
-        port: 4000,
-        files: ['server', 'dist'],
-        reloadDelay: 500,
-        proxy: 'http://localhost:5000/'
-      },
-      // plugin options
-      {
-        reload: true
-      }
-    ),
-    new HtmlWebpackPlugin({  // Also generate a test.html
-      filename: 'index.html',
-      template: 'public/index.html'
-    })
+    new webpack.NamedModulesPlugin(), // 名前変更無効プラグイン利用
+    new webpack.HotModuleReplacementPlugin(), // HMR(Hot Module Reload)プラグイン利用
   ],
   module: {
     rules: [{
       test: /\.js?$/, // 拡張子がjsで
       exclude: /node_modules/, // node_modulesフォルダ配下は除外
+      include: __dirname, // client配下のJSファイルが対象
       use: {
-        loader: 'babel-loader', // babel-loaderを使って変換する
+        loader: 'babel-loader',
         options: {
-          presets: ['env'], // preset-envでES2015から変換
-        }
-      }
-    }]
-  }
+          // 以下のフォルダにキャッシュを有効にします ./node_modules/.cache/babel-loader/
+          // 変更時のリビルドが速くなります
+          cacheDirectory: true,
+          presets: ['env', 'react', 'stage-0'],
+          plugins: ['transform-class-properties', 'transform-decorators-legacy', 'react-hot-loader/babel'],
+        },
+      },
+    }],
+  },
 }
+

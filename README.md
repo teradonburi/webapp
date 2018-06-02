@@ -2,5 +2,5 @@
 
 ```
 $ yarn
-$ yarn start
+$ yarn dev
 ```

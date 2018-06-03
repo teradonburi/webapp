@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "browser-sync start -s -f '.' --ignore 'node_modules' 'yarn.lock'",
+    "dev": "browser-sync start  --port 4000 -s --f '.' --ignore 'node_modules' 'yarn.lock'",
     "lint": "eslint *.js"
   },
   "devDependencies": {

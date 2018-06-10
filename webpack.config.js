@@ -16,6 +16,14 @@ module.exports = {
     inline: true, // ソース変更時リロードモード
     hot: true, // HMR(Hot Module Reload)モード
     port: 7070, // 起動ポート
+    publicPath: '/',
+    proxy: {
+      '**': {
+        target: 'http://0.0.0.0:7000',
+        secure: false,
+        logLevel: 'debug',
+      },
+    },
   },
   output: {
     publicPath: '/dist', // distフォルダ以下を公開パスに指定

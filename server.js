@@ -9,6 +9,7 @@ process.on('unhandledRejection', (err) => console.error(err))
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+app.use(express.static('.'))
 
 
 // GraphQLスキーマ定義

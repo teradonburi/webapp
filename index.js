@@ -93,20 +93,30 @@ const theme = createMuiTheme({
   },
 })
 
+import { ApolloProvider } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+
+const apclient = new ApolloClient({
+  uri: 'http://localhost:5050/graphql',
+})
+
 
 const render = () => {
   ReactDOM.render(
-    <MuiThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Router history={history}>
-          <Switch>
-            <Route exact path='/' component={App} />
-            {/* それ以外のパス */}
-            <Route component={() => <div>NotFound</div>} />
-          </Switch>
-        </Router>
-      </Provider>
-    </MuiThemeProvider>,
+    <ApolloProvider client={apclient}>
+      <MuiThemeProvider theme={theme}>
+        <Provider store={store}>
+          <Router history={history}>
+            <Switch>
+              <Route exact path='/' component={App} />
+              {/* それ以外のパス */}
+              <Route component={() => <div>NotFound</div>} />
+            </Switch>
+          </Router>
+        </Provider>
+      </MuiThemeProvider>
+    </ApolloProvider>
+    ,
     document.getElementById('root'),
   )
 }
@@ -114,4 +124,4 @@ const render = () => {
 // Webpack Hot Module Replacement API
 hot(module)(render)
 
-
+render()

@@ -15,11 +15,11 @@ module.exports = {
     historyApiFallback: true, // history APIが404エラーを返す時、index.htmlに遷移(ブラウザリロード時など)
     inline: true, // ソース変更時リロードモード
     hot: true, // HMR(Hot Module Reload)モード
-    port: 7070, // 起動ポート
+    port: 5050, // 起動ポート
     publicPath: '/',
     proxy: {
       '**': {
-        target: 'http://0.0.0.0:7000',
+        target: 'http://0.0.0.0:5000',
         secure: false,
         logLevel: 'debug',
       },

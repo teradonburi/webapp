@@ -114,4 +114,6 @@ const render = () => {
 // Webpack Hot Module Replacement API
 hot(module)(render)
 
+render()
+
 

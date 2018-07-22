@@ -1,4 +1,4 @@
-/*globals module: false */
+/*globals module: false*/
 import React  from 'react'
 import ReactDOM from 'react-dom'
 import { hot } from 'react-hot-loader'
@@ -28,7 +28,7 @@ const reducer = combineReducers({
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/dist/service-worker.js')
+    navigator.serviceWorker.register('/service-worker.js')
   })
 }
 

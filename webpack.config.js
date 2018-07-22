@@ -1,6 +1,7 @@
 /*globals module: false require: false __dirname: false */
 const webpack = require('webpack')
 const { GenerateSW } = require('workbox-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development', // 開発モード
@@ -19,11 +20,15 @@ module.exports = {
     port: 7070, // 起動ポート
   },
   output: {
-    publicPath: '/dist', // distフォルダ以下を公開パスに指定
+    publicPath: '/',
     filename: 'bundle.js',
   },
   plugins: [
     new GenerateSW(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html', // 出力ファイル名
+      template: 'index.html', // template対象のhtmlのパス
+    }),
     new webpack.NamedModulesPlugin(), // 名前変更無効プラグイン利用
     new webpack.HotModuleReplacementPlugin(), // HMR(Hot Module Reload)プラグイン利用
   ],

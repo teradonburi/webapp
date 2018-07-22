@@ -2,7 +2,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const webpackConfig = require('./webpack.config.js')
-const { GenerateSW } = require('workbox-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const revision = require('child_process').execSync('git rev-parse HEAD').toString().trim()
@@ -49,7 +49,9 @@ function createConfig() {
   }
 
   config.plugins = [
-    new GenerateSW(),
+    new InjectManifest({
+      swSrc: './sw.js',
+    }),
     // 環境変数をエクスポート
     new webpack.DefinePlugin({
       'process.env': {

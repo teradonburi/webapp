@@ -1,6 +1,6 @@
 /*globals module: false require: false __dirname: false */
 const webpack = require('webpack')
-const { GenerateSW } = require('workbox-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -24,7 +24,9 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
-    new GenerateSW(),
+    new InjectManifest({
+      swSrc: './sw.js',
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html', // 出力ファイル名
       template: 'index.html', // template対象のhtmlのパス

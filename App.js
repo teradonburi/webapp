@@ -14,7 +14,15 @@ class Test extends React.Component {
     return prevState
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    console.log('---componentDidMount---')
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.myprop !== this.props.myprop) {
+      console.log('---componentDidUpdate---')
+    }
+  }
 
   render () {
     console.log('----this.state----', this.state)

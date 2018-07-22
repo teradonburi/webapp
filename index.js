@@ -26,6 +26,12 @@ const reducer = combineReducers({
   form: formReducer,
 })
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/dist/service-worker.js')
+  })
+}
+
 // redux-thunkをミドルウェアに適用、historyをミドルウェアに追加
 const store = createStore(reducer, composeEnhancers(applyMiddleware(routerMiddleware(history), thunkWithClient)))
 

@@ -5,7 +5,9 @@
   "author": "teradonburi <daikiterai@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "dev": "run-p dev:*",
+    "dev:client": "webpack-dev-server --mode development",
+    "dev:server": "node-dev --inspect=9230 server.js",
     "lint": "eslint ."
   },
   "devDependencies": {

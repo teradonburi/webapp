@@ -9,6 +9,10 @@ module.exports = {
     'react-hot-loader/patch',
     __dirname + '/index', // エントリポイントのjsxファイル
   ],
+  resolve: {
+    modules: ['modules', 'node_modules'],
+    extensions: ['.js', '.json'],
+  },
   // React Hot Loader用のデバッグサーバ(webpack-dev-server)の設定
   devServer: {
     contentBase: __dirname, // index.htmlの格納場所
@@ -16,6 +20,12 @@ module.exports = {
     inline: true, // ソース変更時リロードモード
     hot: true, // HMR(Hot Module Reload)モード
     port: 7070, // 起動ポート
+    proxy: {
+      '**': {
+        target: 'http://127.0.0.1:9090',
+        changeOrigin: true,
+      },
+    },
   },
   output: {
     publicPath: '/dist', // distフォルダ以下を公開パスに指定
@@ -29,14 +39,26 @@ module.exports = {
     rules: [{
       test: /\.js?$/, // 拡張子がjsで
       exclude: /node_modules/, // node_modulesフォルダ配下は除外
-      include: __dirname, // client配下のJSファイルが対象
+      include: [
+        __dirname, // client配下のJSファイルが対象
+      ],
       use: {
         loader: 'babel-loader',
-        options: {
-          // 以下のフォルダにキャッシュを有効にします ./node_modules/.cache/babel-loader/
-          // 変更時のリビルドが速くなります
+        query: {
           cacheDirectory: true,
-          presets: ['env', 'react'],
+          presets: [
+            [
+              'env', {
+                targets: {
+                  browsers: ['last 2 versions', '> 1%'],
+                },
+                modules: false,
+                useBuiltIns: true,
+              },
+            ],
+            'stage-0',
+            'react',
+          ],
           plugins: ['transform-class-properties', 'transform-decorators-legacy', 'react-hot-loader/babel'],
         },
       },

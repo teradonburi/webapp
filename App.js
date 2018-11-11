@@ -165,6 +165,9 @@ const renderFile = withStyles(() => ({
   input: {
     display: 'none',
   },
+  button: {
+    marginTop: 10,
+  },
 }))(
   ({
     input: { value, name, onChange },
@@ -192,7 +195,7 @@ const renderFile = withStyles(() => ({
         onBlur={() => {}}
       />
       <label htmlFor={name}>
-        <Button variant='outlined' component='span'>
+        <Button classes={{root: classes.button}} variant='outlined' component='span'>
           {buttonLabel || 'アップロード'}
         </Button>
       </label>
@@ -202,12 +205,22 @@ const renderFile = withStyles(() => ({
   )
 )
 
-const renderMembers = withStyles(() => ({
+const renderMembers = withStyles(theme => ({
   input: {
     display: 'flex',
   },
   space: {
     marginLeft: 10,
+  },
+  member: {
+    marginTop: 10,
+    padding: 10,
+    border: `1px solid ${theme.palette.grey[400]}`,
+    borderRadius: 10,
+  },
+  header: {
+    marginTop: 0,
+    marginBottom: 10,
   },
   addButton: {
     marginTop: 10,
@@ -227,8 +240,8 @@ const renderMembers = withStyles(() => ({
     <FormControl classes={{root: rootClass}} required={required} component='fieldset' error={!!(submitFailed && error)}>
       <FormLabel component='legend'>{label}</FormLabel>
       {fields.map((member, idx) => (
-        <div key={idx}>
-          <h4>メンバー{idx + 1}</h4>
+        <div key={idx} className={classes.member}>
+          <h6 className={classes.header}>メンバー{idx + 1}</h6>
           <div className={classes.input}>
             <Field
               name={`${member}.lastName`}

@@ -2,7 +2,8 @@ module.exports = {
   'parser': 'babel-eslint',
   'env': {
     'browser': true, // ブラウザ
-    'es6': true
+    'es6': true,
+    'node': true,
   },
   // reactプラグイン
   'extends': ['eslint:recommended', 'plugin:react/recommended'],

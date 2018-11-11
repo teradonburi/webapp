@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
@@ -13,6 +14,7 @@ import FormGroup from '@material-ui/core/FormGroup'
 import Switch from '@material-ui/core/Switch'
 import { reduxForm, Field, FieldArray } from 'redux-form'
 import { withStyles } from '@material-ui/core'
+import { create } from './modules/user'
 
 // TextField
 const renderTextField = ({
@@ -289,8 +291,8 @@ const renderMembers = withStyles(theme => ({
     if (!values.checkbox) {
       errors.checkbox = '必須項目です'
     }
-    if (!values.file) {
-      errors.file = '必須項目です'
+    if (!values.image) {
+      errors.image = '必須項目です'
     }
     if (!values.members || !values.members.length) {
       errors.members = { _error: '１人以上メンバーの追加が必要です' }
@@ -314,6 +316,12 @@ const renderMembers = withStyles(theme => ({
     return errors
   },
 })
+@connect(
+  state => ({
+    user: state.user.user,
+  }),
+  { create }
+)
 @withStyles(() => ({
   formControl: {
     marginTop: 10,
@@ -331,10 +339,21 @@ export default class MainPage extends React.Component {
       images: [],
       uploading: {},
     }
+    this.props.initialize({text: 'てきすと'})
   }
 
   submit = (values) => {
-    this.setState({send: values})
+    const params = new FormData()
+    params.append('text', values.text)
+    params.append('password', values.password)
+    params.append('textarea', values.textarea)
+    params.append('select', values.select)
+    params.append('radio', values.radio)
+    params.append('checkbox', values.checkbox)
+    params.append('switch', !!values.switch)
+    params.append('image', values.image)
+    params.append('members', JSON.stringify(values.members))
+    this.props.create(params)
   }
 
   render () {
@@ -364,7 +383,7 @@ export default class MainPage extends React.Component {
             <FormControlLabel value='check3' control={<Checkbox />} label='オプション３'/>
           </Field>
           <Field name='switch' label='スイッチ' component={renderSwitch} />
-          <Field name='file' label='画像' accept='image/*' component={renderFile} rootClass={classes.formControl} required />
+          <Field name='image' label='画像' accept='image/*' component={renderFile} rootClass={classes.formControl} required />
           <FieldArray name='members' label='メンバー' component={renderMembers} rootClass={classes.formControl} required />
           <Button type='submit' size='medium' variant='contained' color='primary' >送信</Button>
         </div>

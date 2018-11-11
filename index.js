@@ -2,14 +2,14 @@
 import React  from 'react'
 import ReactDOM from 'react-dom'
 import { hot } from 'react-hot-loader'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
-import { routerMiddleware, routerReducer, ConnectedRouter as Router } from 'react-router-redux'
+import { routerMiddleware, ConnectedRouter as Router } from 'react-router-redux'
 import { Route, Switch } from 'react-router-dom'
-import { reducer as formReducer } from 'redux-form'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import reducer from './modules/reducer'
 import client from 'axios'
 import App from './App'
 
@@ -20,11 +20,6 @@ const history = createHistory()
 // axiosをthunkの追加引数に加える
 const thunkWithClient = thunk.withExtraArgument(client)
 
-// reducerを１つにまとめる
-const reducer = combineReducers({
-  routing: routerReducer,
-  form: formReducer,
-})
 
 // redux-thunkをミドルウェアに適用、historyをミドルウェアに追加
 const store = createStore(reducer, composeEnhancers(applyMiddleware(routerMiddleware(history), thunkWithClient)))

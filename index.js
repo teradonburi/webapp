@@ -31,6 +31,9 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(routerMiddle
 
 // Material-UIテーマを上書きする
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   // カラーパレット
   palette: {
     type: 'light',
